@@ -24,6 +24,7 @@ int dQ = -1;
 
 int main()
 {
+	deQueue();
 
 	enQueue(-1);
 	enQueue(1);
@@ -31,9 +32,21 @@ int main()
 	enQueue(3);
 	enQueue(4);
 	enQueue(5);
-	deQueue();
-	deQueue();
 	enQueue(5);
+	deQueue();
+	deQueue();
+	deQueue();
+	deQueue();
+	deQueue();
+	deQueue();
+	deQueue();
+	deQueue();
+	enQueue(4);
+	deQueue();
+	deQueue();
+	enQueue(4);
+	deQueue();
+
 
 	show();
 	puts("_______________________");
@@ -71,13 +84,16 @@ void deQueue()  //select (by incrementing) what you want to delete first then de
 			//we excute this after resetting 
 		{
 			dQ++;
-			myQ[dQ] = 0; //deletes data [putting zero is basically deletting]
+			if (myQ[dQ] != 0)
+			{
+				myQ[dQ] = 0; //deletes data [putting zero is basically deletting]
+			}
 
 		}
 		else 
 		{
 			dQ--;
-			puts("UNDERFLOW");
+			puts("--UNDERFLOW--");
 		}
 
 	}
@@ -95,9 +111,13 @@ void resetDq()
 {
 	if (dQ == 5)
 	{
-		if (nQ >=0)
+		if (nQ >0) // nQ Bigger than zero means taht zero is taken! meaning that we can dequeue index 0! 
 		{
 			dQ = -1;
+		}
+		else 
+		{
+			puts("--UNDERFLOW--");
 		}
 	}
 }
