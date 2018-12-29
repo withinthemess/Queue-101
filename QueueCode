@@ -1,0 +1,160 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
+
+void enQueue(int num);        //Inserts data
+void deQueue();               //Deletes data
+
+
+void resetNq();               //Resets enqueue tracker
+void resetDq();               //Resets dequeue tracker	
+
+
+void show();                  //Prints queue data 
+
+
+bool protectNq();               //Makes sure the two trackers never meet to avoid overwritting.
+bool returnValue = protectNq(); //Next enQueue security variable!
+
+int myQ[5];
+int nQ = 0;
+int dQ = -1;
+
+
+int main()
+{
+
+	enQueue(-1);
+	enQueue(1);
+	enQueue(2);
+	enQueue(3);
+	enQueue(4);
+	enQueue(5);
+	deQueue();
+	deQueue();
+	enQueue(5);
+
+	show();
+	puts("_______________________");
+
+	system("pause");
+	return 0;
+}
+
+void enQueue(int num)  // eat the apple first (write the data) then make your snake longer (by incrementing)
+{
+	if (returnValue)
+		//returnValue is false in a single case
+		//When the next index is not free (OverFlow)
+	{
+		myQ[nQ] = num;    // inserts data member into array
+		nQ++;
+		resetNq();        //checking if we exceded the array limit [box borders]
+		protectNq();
+	}
+}
+
+void deQueue()  //select (by incrementing) what you want to delete first then delete it (over write).
+{
+
+	dQ++; //incrementing this tracker will allow the program to overwrite the old position.
+	resetDq();
+	if (myQ[dQ] != 0)
+	{
+		myQ[dQ] = 0; //deletes data [putting zero is basically deletting]
+
+	}
+	else
+	{
+		if (dQ == -1)
+			//we excute this after resetting 
+		{
+			dQ++;
+			myQ[dQ] = 0; //deletes data [putting zero is basically deletting]
+
+		}
+		else 
+		{
+			dQ--;
+			puts("UNDERFLOW");
+		}
+
+	}
+
+	resetDq();        //checking if we exceded the array limit [box borders]
+	if (!returnValue)
+	{
+		puts("OVERFLOW HAS BEEN HANDLED");
+		resetNq();
+		returnValue = true;
+	}
+}
+
+void resetDq()
+{
+	if (dQ == 5)
+	{
+		if (nQ >=0)
+		{
+			dQ = -1;
+		}
+	}
+}
+
+void resetNq()
+{
+	if (nQ == 5)
+	{
+		if (dQ > -1)
+			// Check if we have space infront
+		{
+			nQ = 0;
+		}
+		else
+		{
+			//returnValue = false;
+			//Dont allow next enqueue
+		}
+	}
+}
+
+bool protectNq()
+{
+
+
+	if (myQ[nQ] != 0)
+	{
+		puts("-- Stack Is Full Now --");
+		return returnValue = false;
+		//setting return value to false will not allow enqueue to excute next time we invoke it
+		//that will happen in the casee of an overflow only
+	}
+	else
+		return returnValue = true;
+	//keeping true allows us to invoke enqueue again 
+
+}
+
+void show()
+{
+	for (int i = 0; i <= 4; i++)
+	{
+		/*if (myQ[i]==0) 
+		{
+			continue;
+		}
+		else
+		{
+			cout << i + 1 << ".\t" << myQ[i] << endl;
+		}
+
+		-------------------  or  -------------------------------
+		*/		
+
+
+		cout << i + 1 << ".\t" << myQ[i] << endl;
+
+	}
+}
+
